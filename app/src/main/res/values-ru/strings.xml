@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ball_sort_game</string>
+    <string name="settings">Настройки</string>
+    <string name="main_menu">Главное меню</string>
+    <string name="sound">Звук</string>
+    <string name="music">Музыка</string>
+    <string name="restart">Заново</string>
+    <string name="difficulty">Сложность</string>
+    <string name="play">Играть!</string>
+    <string name="to_main_menu">К главному меню</string>
+    <string name="set_num_of_colors">Выберите количество цветов</string>
+</resources>
