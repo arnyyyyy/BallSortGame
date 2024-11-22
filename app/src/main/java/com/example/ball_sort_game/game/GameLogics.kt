@@ -26,3 +26,9 @@ fun moveBall(fromColumn_: List<Color?>, toColumn_: List<Color?>): Pair<List<Colo
 
     return Pair(fromColumn, toColumn)
 }
+
+fun isWon(columns: List<List<Color?>>): Boolean {
+    return columns.all { column ->
+        column.isEmpty() || column.distinct().size <= 1
+    }
+}

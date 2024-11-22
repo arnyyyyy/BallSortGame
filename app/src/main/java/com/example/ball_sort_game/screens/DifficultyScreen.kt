@@ -36,8 +36,6 @@ import kotlin.math.round
 
 @Composable
 fun DifficultyScreen(navController: NavHostController, gameViewModel: GameViewModel) {
-    var numOfColors by remember { mutableStateOf(4) }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -65,7 +63,7 @@ fun DifficultyScreen(navController: NavHostController, gameViewModel: GameViewMo
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = context.getString(R.string.set_num_of_colors) + ' ' + ' ' + numOfColors.toString(),
+            text = context.getString(R.string.set_num_of_colors) + ' ' + ' ' + gameViewModel.numOfColors.toString(),
             style = TextStyle(
                 color = MaterialTheme.colorScheme.primary,
                 fontSize = 24.sp,
@@ -77,9 +75,9 @@ fun DifficultyScreen(navController: NavHostController, gameViewModel: GameViewMo
         )
 
         Slider(
-            value = numOfColors * 1.0f,
+            value = gameViewModel.numOfColors * 1.0f,
             onValueChange = { newValue ->
-                numOfColors = round(newValue).toInt()
+                gameViewModel.numOfColors = round(newValue).toInt()
                 playSound(context, R.raw.pop, gameViewModel.isSoundEnabled)
             },
             valueRange = 4f..10f,
@@ -94,7 +92,6 @@ fun DifficultyScreen(navController: NavHostController, gameViewModel: GameViewMo
         Spacer(modifier = Modifier.height(64.dp))
         Button(
             onClick = {
-                gameViewModel.numOfColors = numOfColors
                 playSound(context, R.raw.pop, gameViewModel.isSoundEnabled)
                 navController.navigate("mainMenu")
             },
