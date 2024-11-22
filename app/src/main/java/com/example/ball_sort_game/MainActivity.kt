@@ -5,6 +5,7 @@ import DifficultyScreen
 import MainMenuScreen
 import MusicController
 import android.content.Context
+import android.content.res.Configuration
 import android.media.MediaPlayer
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -19,11 +20,19 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.ball_sort_game.game.GameViewModel
 import com.example.ball_sort_game.screens.SettingsScreen
+import java.util.Locale
 
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+//        val locale = Locale("ru")
+//        Locale.setDefault(locale)
+//        val config = Configuration(resources.configuration)
+//        config.setLocale(locale)
+//        resources.updateConfiguration(config, resources.displayMetrics)
+
         setContent {
             GameApp()
         }

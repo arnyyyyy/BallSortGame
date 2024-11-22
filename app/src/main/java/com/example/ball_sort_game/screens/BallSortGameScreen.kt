@@ -1,6 +1,7 @@
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
@@ -33,6 +35,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -110,7 +113,7 @@ fun BallSortGameScreen(navController: NavHostController, gameViewModel: GameView
 
         Spacer(Modifier.height((if (numOfColors <= 5) 156 else 156 / 2).dp))
         Text(
-            text = stepsRemained.toString() + " steps remained",
+            text = stepsRemained.toString() + context.getString(R.string.steps_remained),
             color = MaterialTheme.colorScheme.primary,
             style = MaterialTheme.typography.headlineMedium,
             fontFamily = FontFamily(
@@ -128,15 +131,22 @@ fun BallSortGameScreen(navController: NavHostController, gameViewModel: GameView
                 rowColumns.forEachIndexed { index, column ->
                     val columnWidth = 60.dp
                     val columnHeight = 200.dp
+                    val columnId = index
+
+                    val offsetY by animateDpAsState(
+                        targetValue = if (selectedColumn == columnId) (-12).dp else 0.dp,
+                        animationSpec = tween(durationMillis = 200)
+                    )
 
                     Column(
                         modifier = Modifier
                             .clickable {
                                 if (selectedColumn == null) {
-                                    selectedColumn = columns.indexOf(column)
+                                    selectedColumn =
+                                        columnId
                                 } else {
                                     val selectedIndex = selectedColumn!!
-                                    val targetIndex = columns.indexOf(column)
+                                    val targetIndex = columnId
 
                                     if (selectedIndex != targetIndex) {
                                         val (updatedFrom, updatedTo) = moveBall(
@@ -160,7 +170,9 @@ fun BallSortGameScreen(navController: NavHostController, gameViewModel: GameView
                             }
                             .padding(8.dp)
                             .width(columnWidth)
-                            .height(columnHeight),
+                            .height(columnHeight)
+                            .offset(y = offsetY)
+                        ,
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.SpaceEvenly
                     ) {
@@ -170,6 +182,7 @@ fun BallSortGameScreen(navController: NavHostController, gameViewModel: GameView
                     }
                 }
             }
+
         }
     }
 
@@ -266,7 +279,7 @@ fun BallSortGameScreen(navController: NavHostController, gameViewModel: GameView
                         border = BorderStroke(1.dp, Color.Gray)
                     ) {
                         Text(
-                            text = if (isSoundEnabled) "Disable Sound" else "Enable Sound",
+                            text = if (isSoundEnabled) context.getString(R.string.disable_sound) else context.getString(R.string.enable_sound),
                             fontFamily = FontFamily(Font(R.font.dotness)),
                             fontSize = 20.sp
                         )
@@ -289,7 +302,7 @@ fun BallSortGameScreen(navController: NavHostController, gameViewModel: GameView
                         border = BorderStroke(1.dp, Color.Gray)
                     ) {
                         Text(
-                            text = if (isMusicEnabled) "Disable Music" else "Enable Music",
+                            text = if (isMusicEnabled) context.getString(R.string.disable_music) else context.getString(R.string.enable_music),
                             fontFamily = FontFamily(Font(R.font.dotness)),
                             fontSize = 20.sp
                         )
@@ -302,7 +315,7 @@ fun BallSortGameScreen(navController: NavHostController, gameViewModel: GameView
 }
 
 @Composable
-fun AlertText(text : String) {
+fun AlertText(text: String) {
     val context = LocalContext.current
     var colors by remember {
         mutableStateOf(
