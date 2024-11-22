@@ -130,7 +130,7 @@ fun BallSortGameScreen(navController: NavHostController, gameViewModel: GameView
             ) {
                 rowColumns.forEachIndexed { index, column ->
                     val columnWidth = 60.dp
-                    val columnHeight = 200.dp
+                    val columnHeight = if (numOfColors < 6) 200.dp else 250.dp
                     val columnId = index
 
                     val offsetY by animateDpAsState(

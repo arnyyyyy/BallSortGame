@@ -5,9 +5,9 @@ import kotlin.math.min
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
-//fun generateRandomColor(): Color {
-//    return Color(Random.nextInt(256), Random.nextInt(256), Random.nextInt(256))
-//}
+fun generateRandomColorOneBall(): Color {
+    return Color(Random.nextInt(256), Random.nextInt(256), Random.nextInt(256))
+}
 
 fun generateRandomColor(count: Int): List<Color> {
     val colors = mutableListOf<Color>()
@@ -44,7 +44,8 @@ fun hslToColor(hue: Float, saturation: Float, lightness: Float): Color {
 
 
 fun fillColumns(numOfColors: Int): List<List<Color?>> {
-    val colors = generateRandomColor(numOfColors - 1)
+    val colors =
+        if (numOfColors > 6) generateRandomColor(numOfColors - 1) else List(numOfColors - 1) { generateRandomColorOneBall() }
 
     val balls: MutableList<Color?> = mutableListOf()
 
