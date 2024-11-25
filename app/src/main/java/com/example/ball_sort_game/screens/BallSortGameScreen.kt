@@ -203,7 +203,7 @@ fun BallSortGameScreen(navController: NavHostController, gameViewModel: GameView
 
     }
 
-    if ((stepsRemained <= 0) and isWon) {
+    if ((stepsRemained <= 0) and !isWon) {
         AlertDialog(
             onDismissRequest = { navController.navigate("mainMenu") },
             text = {
