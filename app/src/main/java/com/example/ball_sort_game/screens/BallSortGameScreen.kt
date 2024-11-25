@@ -60,6 +60,7 @@ fun BallSortGameScreen(navController: NavHostController, gameViewModel: GameView
     val numOfColors = gameViewModel.numOfColors
     val isSoundEnabled = gameViewModel.isSoundEnabled
     val isMusicEnabled = gameViewModel.isMusicEnabled
+    var isWon by remember { mutableStateOf(false) }
     var isMenuOpen by remember { mutableStateOf(false) }
 
     var stepsRemained by remember { mutableStateOf(numOfColors * numOfColors) }
@@ -113,7 +114,7 @@ fun BallSortGameScreen(navController: NavHostController, gameViewModel: GameView
 
         Spacer(Modifier.height((if (numOfColors <= 5) 156 else 156 / 2).dp))
         Text(
-            text = stepsRemained.toString() + context.getString(R.string.steps_remained),
+            text = stepsRemained.toString() + ' ' + context.getString(R.string.steps_remained),
             color = MaterialTheme.colorScheme.primary,
             style = MaterialTheme.typography.headlineMedium,
             fontFamily = FontFamily(
@@ -187,8 +188,9 @@ fun BallSortGameScreen(navController: NavHostController, gameViewModel: GameView
     }
 
     val context = LocalContext.current
+    isWon = isWon(columns)
 
-    if (isWon(columns)) {
+    if (isWon) {
         AlertDialog(
             onDismissRequest = { navController.navigate("mainMenu") },
             text = {
@@ -200,7 +202,7 @@ fun BallSortGameScreen(navController: NavHostController, gameViewModel: GameView
 
     }
 
-    if (stepsRemained <= 0) {
+    if ((stepsRemained <= 0) and isWon) {
         AlertDialog(
             onDismissRequest = { navController.navigate("mainMenu") },
             text = {
