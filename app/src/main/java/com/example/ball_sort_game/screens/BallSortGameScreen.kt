@@ -124,7 +124,7 @@ fun BallSortGameScreen(navController: NavHostController, gameViewModel: GameView
         )
         Spacer(modifier = Modifier.height(4.dp))
 
-        rows.forEach { rowColumns ->
+        rows.forEachIndexed { idx, rowColumns ->
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
@@ -132,10 +132,11 @@ fun BallSortGameScreen(navController: NavHostController, gameViewModel: GameView
                 rowColumns.forEachIndexed { index, column ->
                     val columnWidth = 60.dp
                     val columnHeight = if (numOfColors < 6) 200.dp else 250.dp
+                    val columnIdCommon = idx * (numOfColors + 1) / 2 + index
                     val columnId = index
 
                     val offsetY by animateDpAsState(
-                        targetValue = if (selectedColumn == columnId) (-12).dp else 0.dp,
+                        targetValue = if (selectedColumn == columnIdCommon) (-12).dp else 0.dp,
                         animationSpec = tween(durationMillis = 200)
                     )
 
@@ -144,10 +145,10 @@ fun BallSortGameScreen(navController: NavHostController, gameViewModel: GameView
                             .clickable {
                                 if (selectedColumn == null) {
                                     selectedColumn =
-                                        columnId
+                                        columnIdCommon
                                 } else {
                                     val selectedIndex = selectedColumn!!
-                                    val targetIndex = columnId
+                                    val targetIndex = columnIdCommon
 
                                     if (selectedIndex != targetIndex) {
                                         val (updatedFrom, updatedTo) = moveBall(
